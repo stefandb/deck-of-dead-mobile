@@ -61,14 +61,22 @@ class Preset extends Model
 
     private function resolveSuit(string $cardType, string $suit): string
     {
-        if ($cardType === 'joker') {
+        // Joker and ace always use 'any' — stored as a single rule regardless of suit
+        if (in_array($cardType, ['joker', 'ace'])) {
             return 'any';
         }
 
+        // Face cards by_color: group hearts/diamonds → red, clubs/spades → black
         if (in_array($cardType, ['jack', 'queen', 'king']) && $this->face_card_mode === FaceCardMode::ByColor) {
             return in_array($suit, ['hearts', 'diamonds']) ? 'red' : 'black';
         }
 
+        // Face cards by_type: stored with suit='any' (one rule per type covers all suits)
+        if (in_array($cardType, ['jack', 'queen', 'king'])) {
+            return 'any';
+        }
+
+        // Numbers: prefer suit-specific rule, fall back to red/black color rule
         if ($cardType === 'number') {
             $hasSpecificRule = $this->rules()
                 ->where('card_type', 'number')
