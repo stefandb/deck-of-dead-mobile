@@ -8,4 +8,72 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-app-bg: #1a1a2e;
+    --color-accent: #534AB7;
+    --color-accent-light: #EEEDFE;
+    --color-suit-red: #D85A30;
+    --color-suit-black: #2c2c2a;
+    --color-badge-exercise-bg: #F5C4B3;
+    --color-badge-exercise-text: #712B13;
+    --color-badge-unit-bg: #9FE1CB;
+    --color-badge-unit-text: #085041;
+}
+
+@layer components {
+    .badge-exercise {
+        @apply text-xs rounded-md px-2 py-0.5 cursor-pointer;
+        background-color: var(--color-badge-exercise-bg);
+        color: var(--color-badge-exercise-text);
+    }
+
+    .badge-unit {
+        @apply text-xs rounded-md px-2 py-0.5 cursor-pointer;
+        background-color: var(--color-badge-unit-bg);
+        color: var(--color-badge-unit-text);
+    }
+
+    .game-screen {
+        @apply min-h-screen flex flex-col;
+        background: var(--color-app-bg);
+    }
+
+    .exercise-panel {
+        @apply border-t px-5 py-4 text-center;
+        background: rgb(255 255 255 / 0.05);
+        border-color: rgb(255 255 255 / 0.1);
+    }
+
+    .exercise-name {
+        @apply text-xs mb-1;
+        color: rgb(255 255 255 / 0.45);
+    }
+
+    .exercise-value {
+        @apply text-5xl font-medium text-white leading-none tabular-nums;
+    }
+
+    .exercise-unit {
+        @apply text-xs mt-1 tracking-wide;
+        color: rgb(255 255 255 / 0.5);
+    }
+
+    .swipe-hint {
+        @apply text-xs mt-6;
+        color: rgb(255 255 255 / 0.2);
+    }
+
+    .stat-card {
+        @apply rounded-xl p-3 text-center;
+        background: rgb(255 255 255 / 0.07);
+    }
+
+    .stat-value {
+        @apply text-lg font-medium text-white;
+    }
+
+    .stat-label {
+        @apply text-xs mt-0.5;
+        color: rgb(255 255 255 / 0.4);
+    }
 }
