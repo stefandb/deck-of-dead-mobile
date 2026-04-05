@@ -39,27 +39,27 @@
     }
 
     .exercise-panel {
-        @apply border-t px-5 py-4 text-center;
+        @apply border-t px-5 py-4 text-center flex flex-col;
         background: rgb(255 255 255 / 0.05);
         border-color: rgb(255 255 255 / 0.1);
     }
 
     .exercise-name {
-        @apply text-xs mb-1;
+        @apply text-base mb-2;
         color: rgb(255 255 255 / 0.45);
     }
 
     .exercise-value {
-        @apply text-5xl font-medium text-white leading-none tabular-nums;
+        @apply text-7xl font-medium text-white leading-none tabular-nums;
     }
 
     .exercise-unit {
-        @apply text-xs mt-1 tracking-wide;
+        @apply text-base mt-2 tracking-wide;
         color: rgb(255 255 255 / 0.5);
     }
 
     .swipe-hint {
-        @apply text-xs mt-6;
+        @apply text-sm mt-auto pt-4 pb-2;
         color: rgb(255 255 255 / 0.2);
     }
 
