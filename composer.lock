@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "675cd9001105c9b032c548229a836897",
+    "content-hash": "b430e35dd50ce69d8d372a980faf679c",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2707,6 +2707,57 @@
                 "source": "https://github.com/NativePHP/mobile-air/tree/3.2.0"
             },
             "time": "2026-04-01T19:37:09+00:00"
+        },
+        {
+            "name": "nativephp/mobile-dialog",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NativePHP/mobile-dialog.git",
+                "reference": "fd0ca0d79a2f2396929f6146fef7a55c761b3dd0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NativePHP/mobile-dialog/zipball/fd0ca0d79a2f2396929f6146fef7a55c761b3dd0",
+                "reference": "fd0ca0d79a2f2396929f6146fef7a55c761b3dd0",
+                "shasum": ""
+            },
+            "require": {
+                "nativephp/mobile": "^3.0",
+                "php": "^8.2"
+            },
+            "type": "nativephp-plugin",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Native\\Mobile\\Providers\\DialogServiceProvider"
+                    ]
+                },
+                "nativephp": {
+                    "manifest": "nativephp.json"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Native\\Mobile\\Providers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "NativePHP",
+                    "email": "support@nativephp.com"
+                }
+            ],
+            "description": "Native alert dialogs and toast notifications for NativePHP Mobile",
+            "support": {
+                "issues": "https://github.com/NativePHP/mobile-dialog/issues",
+                "source": "https://github.com/NativePHP/mobile-dialog/tree/1.0.1"
+            },
+            "time": "2026-03-20T22:08:33+00:00"
         },
         {
             "name": "nesbot/carbon",

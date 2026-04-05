@@ -34,7 +34,7 @@
     }
 
     .game-screen {
-        @apply min-h-screen flex flex-col;
+        @apply h-full flex flex-col overflow-hidden;
         background: var(--color-app-bg);
     }
 
@@ -75,5 +75,57 @@
     .stat-label {
         @apply text-xs mt-0.5;
         color: rgb(255 255 255 / 0.4);
+    }
+
+    .playing-card {
+        width: 263px;
+        height: 356px;
+        background: white;
+        border-radius: 26px;
+        padding: 19px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 8px 32px rgb(0 0 0 / 0.4);
+    }
+
+    .playing-card .corner {
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+    }
+
+    .playing-card .corner.rotated {
+        transform: rotate(180deg);
+        align-self: flex-end;
+        margin-top: auto;
+    }
+
+    .playing-card .value {
+        font-size: 38px;
+        font-weight: 700;
+    }
+
+    .playing-card .symbol {
+        font-size: 38px;
+    }
+
+    .playing-card .center-symbol {
+        font-size: 98px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .playing-card.suit-red .value,
+    .playing-card.suit-red .symbol,
+    .playing-card.suit-red .center-symbol {
+        color: var(--color-suit-red);
+    }
+
+    .playing-card.suit-black .value,
+    .playing-card.suit-black .symbol,
+    .playing-card.suit-black .center-symbol {
+        color: var(--color-suit-black);
     }
 }
