@@ -1,6 +1,8 @@
 <div
     x-data="swipeHandler()"
     x-on:card-completed="$wire.completeCard()"
+    x-on:timer-lock.window="swipeLocked = true"
+    x-on:timer-unlock.window="swipeLocked = false"
     class="game-screen"
 >
     {{-- Progress header --}}
@@ -25,7 +27,7 @@
     </div>
 
     {{-- Speelkaart gecentreerd --}}
-    <div class="shrink-0 flex items-center justify-center py-4">
+    <div class="shrink-0 flex items-center justify-center py-4" data-swipe-zone>
         <x-playing-card :card="$currentCard" />
     </div>
 
@@ -34,17 +36,36 @@
         <p class="exercise-name">{{ $currentCard->exercise->name }}</p>
 
         @if ($currentCard->unit === 'seconds')
-            {{-- Timer (één Alpine instantie voor display + progress) --}}
-            <div x-data="timer({{ $currentCard->reps }})">
-                <p class="exercise-value" x-text="display">{{ $currentCard->reps }}</p>
-                <p class="exercise-unit">van {{ $currentCard->reps }} sec</p>
-                <div class="w-full h-1 rounded-full overflow-hidden mt-3" style="background: rgb(255 255 255 / 0.1);">
-                    <div
-                        class="h-full rounded-full"
-                        style="background-color: var(--color-accent);"
-                        x-bind:style="'width:' + pct + '%'"
-                    ></div>
+            <div wire:key="{{ $currentCard->id }}-timer" x-data="timer({{ $currentCard->reps }})" class="flex flex-col items-center gap-4 flex-1">
+                {{-- Cirkel timer --}}
+                <div class="relative">
+                    <svg width="180" height="180" viewBox="0 0 200 200" class="-rotate-90">
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="10"/>
+                        <circle
+                            cx="100" cy="100" r="80" fill="none"
+                            stroke-width="10"
+                            stroke-linecap="round"
+                            :stroke="color"
+                            :stroke-dasharray="circumference"
+                            :stroke-dashoffset="dashoffset"
+                            style="transition: stroke-dashoffset 1s linear, stroke 1s linear;"
+                        />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-5xl font-bold text-white tabular-nums" x-text="display">{{ $currentCard->reps }}</span>
+                    </div>
                 </div>
+
+                {{-- Start knop --}}
+                <button
+                    x-show="!running && !finished"
+                    x-on:click="start()"
+                    class="timer-start-btn"
+                >
+                    Start
+                </button>
+
+                <p class="swipe-hint mt-auto pb-2" x-show="finished">klaar? swipe naar volgende</p>
             </div>
         @else
             {{-- Reps of meters --}}
@@ -56,8 +77,7 @@
                     {{ $currentCard->reps === 1 ? 'herhaling' : 'herhalingen' }}
                 @endif
             </p>
+            <p class="swipe-hint">klaar? swipe naar volgende</p>
         @endif
-
-        <p class="swipe-hint">klaar? swipe naar volgende</p>
     </div>
 </div>

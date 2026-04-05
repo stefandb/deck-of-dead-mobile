@@ -58,6 +58,11 @@
         color: rgb(255 255 255 / 0.5);
     }
 
+    .timer-start-btn {
+        @apply px-10 py-3 rounded-full text-lg font-semibold text-white;
+        background-color: var(--color-accent);
+    }
+
     .swipe-hint {
         @apply text-sm mt-auto pt-4 pb-2;
         color: rgb(255 255 255 / 0.2);

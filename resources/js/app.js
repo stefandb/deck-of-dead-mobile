@@ -3,18 +3,42 @@ import './bootstrap';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('timer', (total) => ({
-        seconds: 0,
+        seconds: total,
         total: total,
+        running: false,
+        finished: false,
+        interval: null,
+        circumference: 2 * Math.PI * 80,
+
         get display() {
-            const m = Math.floor(this.seconds / 60);
-            const s = this.seconds % 60;
-            return m > 0 ? `${m}:${String(s).padStart(2, '0')}` : `${s}`;
+            return `${this.seconds}`;
         },
         get pct() {
-            return Math.min((this.seconds / this.total) * 100, 100);
+            return this.total > 0 ? this.seconds / this.total : 0;
         },
-        init() {
-            setInterval(() => { this.seconds++; }, 1000);
+        get dashoffset() {
+            return this.circumference * (1 - this.pct);
+        },
+        get color() {
+            const hue = Math.round((1 - this.pct) * 120);
+            return `hsl(${hue}, 80%, 55%)`;
+        },
+
+        start() {
+            if (this.running || this.finished) return;
+            this.running = true;
+            this.$dispatch('timer-lock');
+            this.interval = setInterval(() => {
+                if (this.seconds > 0) {
+                    this.seconds--;
+                }
+                if (this.seconds === 0) {
+                    clearInterval(this.interval);
+                    this.running = false;
+                    this.finished = true;
+                    this.$dispatch('timer-unlock');
+                }
+            }, 1000);
         },
     }));
 
@@ -39,12 +63,14 @@ document.addEventListener('alpine:init', () => {
         startX: 0,
         startY: 0,
         startTime: 0,
+        swipeLocked: false,
+        startedOnCard: false,
 
         init() {
             const el = this.$el;
 
-            // Pointer events (werkt beter in Android WebView)
             el.addEventListener('pointerdown', (e) => {
+                this.startedOnCard = !!e.target.closest('[data-swipe-zone]');
                 this.startX = e.clientX;
                 this.startY = e.clientY;
                 this.startTime = Date.now();
@@ -52,12 +78,11 @@ document.addEventListener('alpine:init', () => {
             }, { passive: true });
 
             el.addEventListener('pointerup', (e) => {
+                if (this.swipeLocked || !this.startedOnCard) return;
                 const dx = e.clientX - this.startX;
                 const dy = e.clientY - this.startY;
                 const dt = Date.now() - this.startTime;
 
-                // Horizontale swipe: min 50px, sneller dan 500ms, 
-                // meer horizontaal dan verticaal
                 if (
                     Math.abs(dx) > 50 &&
                     Math.abs(dx) > Math.abs(dy) * 1.5 &&
@@ -67,14 +92,15 @@ document.addEventListener('alpine:init', () => {
                 }
             }, { passive: true });
 
-            // Fallback: touch events voor oudere WebViews
             el.addEventListener('touchstart', (e) => {
+                this.startedOnCard = !!e.target.closest('[data-swipe-zone]');
                 this.startX = e.touches[0].clientX;
                 this.startY = e.touches[0].clientY;
                 this.startTime = Date.now();
             }, { passive: true });
 
             el.addEventListener('touchend', (e) => {
+                if (this.swipeLocked || !this.startedOnCard) return;
                 const dx = e.changedTouches[0].clientX - this.startX;
                 const dy = e.changedTouches[0].clientY - this.startY;
                 const dt = Date.now() - this.startTime;
@@ -89,7 +115,6 @@ document.addEventListener('alpine:init', () => {
             }, { passive: true });
         },
 
-        // Lege methodes zodat x-on: attributes niet crashen
         startTouch() {},
         endTouch() {},
     }));
