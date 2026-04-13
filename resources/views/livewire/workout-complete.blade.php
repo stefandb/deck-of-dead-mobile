@@ -26,7 +26,7 @@
     </div>
 
     {{-- Per oefening --}}
-    <x-edge-card class="w-full">
+    <div class="w-full">
         <p class="text-xs font-medium mb-3" style="color: rgb(255 255 255 / 0.4);">Per oefening</p>
         @foreach($this->exerciseSummary as $item)
             <div class="flex justify-between text-sm py-1.5 border-b last:border-b-0" style="border-color: rgb(255 255 255 / 0.07);">
@@ -40,12 +40,12 @@
                 </span>
             </div>
         @endforeach
-    </x-edge-card>
+</div>
 
     {{-- Acties --}}
     <div class="w-full flex flex-col gap-3 mt-auto pb-safe">
-        <x-edge-button variant="primary" wire:click="goHome" class="w-full">
+        <button variant="primary" wire:click="goHome" class="w-full">
             Terug naar home
-        </x-edge-button>
+        </button>
     </div>
 </div>
